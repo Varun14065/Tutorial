@@ -531,7 +531,7 @@ def admin_page():
                 )
 
                 # Fetch details of the selected user
-                 conn = get_db_connection()
+                conn = get_db_connection()
                 cursor = conn.cursor()
                 cursor.execute("SELECT Name, Email_ID, Password, Course, Status FROM User WHERE U_ID = ?", (selected_user_id,))
                 user_data = cursor.fetchone()
@@ -792,7 +792,7 @@ def create_subfolder(parent_folder, subfolder_name):
         st.error(f"Error creating subfolder: {e}")
 
 def edit_user(user_id, name, email, password, course, status1):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
@@ -817,7 +817,7 @@ def delete_user(user_id):
 
 # Update user password
 def updatepassword(email, new_password):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("UPDATE User SET Password = ? WHERE Email_ID = ?", (new_password, email))
     conn.commit()
