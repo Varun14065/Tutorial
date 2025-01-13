@@ -9,22 +9,39 @@ import psycopg2
 
 # Initialize SQLite database
 MAIN_FOLDER = "Course"
+DB_HOST = "tutorial-ugqr.onrender.com"  # e.g., "your-db-name.render.com"
+DB_NAME = "test_gtxk"
+DB_USER = "test_gtxk_user"
+DB_PASSWORD = "Nikw6ypUXxLH10N2Uu5xS9XGfKLpyHu1"
+DB_PORT = "8502"  # Default PostgreSQL port
+
+def get_db_connection():
+    """Create a new database connection."""
+    conn = psycopg2.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        port=DB_PORT
+    )
+    return conn
 
 def init_db():
-    conn = sqlite3.connect("users.db")
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS User (
-            U_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            U_ID SERIAL PRIMARY KEY,
             Name TEXT NOT NULL,
             Email_ID TEXT UNIQUE NOT NULL,
             Password TEXT NOT NULL,
-            Course TEXT NOT NULL,   
+            Course TEXT NOT NULL,  
             Status INTEGER,
             OTP INTEGER
         )
     """)
     conn.commit()
+    cursor.close()
     conn.close()
 
 def fetch_all_users(status=None):
