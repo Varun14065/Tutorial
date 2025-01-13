@@ -13,7 +13,7 @@ DB_HOST = "tutorial-ugqr.onrender.com"  # e.g., "your-db-name.render.com"
 DB_NAME = "test_gtxk"
 DB_USER = "test_gtxk_user"
 DB_PASSWORD = "Nikw6ypUXxLH10N2Uu5xS9XGfKLpyHu1"
-DB_PORT = "8502"  # Default PostgreSQL port
+DB_PORT = "5432"  # Default PostgreSQL port
 
 def get_db_connection():
     """Create a new database connection."""
