@@ -222,7 +222,7 @@ def otp_verification_page():
             st.error("Please enter the OTP.")
 
 def fetch_user_status(email):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Status FROM User WHERE Email_ID = ?", (email,))
     status = cursor.fetchone()
@@ -237,7 +237,7 @@ def list_folders(main_folder):
         return []
 
 def fetch_all_users(status=None):
-     conn = get_db_connection()
+    conn = get_db_connection()
     if status is None:
         # Fetch all users if no status filter is applied
         query = "SELECT U_ID, Name, Email_ID, Course, Status FROM User"
@@ -250,7 +250,7 @@ def fetch_all_users(status=None):
     return users
     
 def fetch_user_status(email):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Status FROM User WHERE Email_ID = ?", (email,))
     status = cursor.fetchone()
@@ -517,7 +517,7 @@ def admin_page():
             status_filter_value = 1 if user_status_filter == "Active Users" else 0
 
             # Fetch users based on the selected status
-             conn = get_db_connection()
+            conn = get_db_connection()
             query = "SELECT U_ID, Name FROM User WHERE Status = ?"
             users_df = pd.read_sql_query(query, conn, params=(status_filter_value,))
             conn.close()
@@ -808,7 +808,7 @@ def edit_user(user_id, name, email, password, course, status1):
 
 # Delete a user
 def delete_user(user_id):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM User WHERE U_ID = ?", (user_id,))
     conn.commit()
