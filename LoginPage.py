@@ -10,9 +10,9 @@ import psycopg2
 # Initialize SQLite database
 MAIN_FOLDER = "Course"
 DB_HOST = "tutorial-ugqr.onrender.com"  # e.g., "your-db-name.render.com"
-DB_NAME = "test_gtxk"
-DB_USER = "test_gtxk_user"
-DB_PASSWORD = "Nikw6ypUXxLH10N2Uu5xS9XGfKLpyHu1"
+DB_NAME = "test_databse_7lvq"
+DB_USER = "root"
+DB_PASSWORD = "ckhZrjUSVoewUk9tWIUj0GKMxZHFOHd4"
 DB_PORT = "5432"  # Default PostgreSQL port
 
 def get_db_connection():
@@ -45,7 +45,7 @@ def init_db():
     conn.close()
 
 def fetch_all_users(status=None):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     if status is None:
         query = "SELECT U_ID, Name, Email_ID, Course FROM User"
         users = pd.read_sql_query(query, conn)
@@ -56,7 +56,7 @@ def fetch_all_users(status=None):
     return users
 
 def is_email_registered(email):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM User WHERE Email_ID = ?", (email,))
     count = cursor.fetchone()[0]
@@ -82,14 +82,14 @@ def send_otp(email):
         return None
 
 def update_otp(email, otp):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("UPDATE User SET OTP = ? WHERE Email_ID = ?", (otp, email))
     conn.commit()
     conn.close()
 
 def verify_user(email, password, otp):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Password, OTP, Status FROM User WHERE Email_ID = ?", (email,))
     record = cursor.fetchone()
@@ -102,7 +102,7 @@ def verify_user(email, password, otp):
     return False
 
 def register_user(name, email, password, course):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("INSERT INTO User (Name, Email_ID, Password, Course, Status) VALUES (?, ?, ?, ?, 0)",
@@ -114,7 +114,7 @@ def register_user(name, email, password, course):
     conn.close()
 
 def fetch_user(email):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Name, Email_ID, Password, Course FROM User WHERE Email_ID = ?", (email,))
     user = cursor.fetchone()
@@ -222,7 +222,7 @@ def otp_verification_page():
             st.error("Please enter the OTP.")
 
 def fetch_user_status(email):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Status FROM User WHERE Email_ID = ?", (email,))
     status = cursor.fetchone()
@@ -237,7 +237,7 @@ def list_folders(main_folder):
         return []
 
 def fetch_all_users(status=None):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     if status is None:
         # Fetch all users if no status filter is applied
         query = "SELECT U_ID, Name, Email_ID, Course, Status FROM User"
@@ -250,7 +250,7 @@ def fetch_all_users(status=None):
     return users
     
 def fetch_user_status(email):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Status FROM User WHERE Email_ID = ?", (email,))
     status = cursor.fetchone()
@@ -517,7 +517,7 @@ def admin_page():
             status_filter_value = 1 if user_status_filter == "Active Users" else 0
 
             # Fetch users based on the selected status
-            conn = sqlite3.connect("users.db")
+             conn = get_db_connection()
             query = "SELECT U_ID, Name FROM User WHERE Status = ?"
             users_df = pd.read_sql_query(query, conn, params=(status_filter_value,))
             conn.close()
@@ -531,7 +531,7 @@ def admin_page():
                 )
 
                 # Fetch details of the selected user
-                conn = sqlite3.connect("users.db")
+                 conn = get_db_connection()
                 cursor = conn.cursor()
                 cursor.execute("SELECT Name, Email_ID, Password, Course, Status FROM User WHERE U_ID = ?", (selected_user_id,))
                 user_data = cursor.fetchone()
@@ -792,7 +792,7 @@ def create_subfolder(parent_folder, subfolder_name):
         st.error(f"Error creating subfolder: {e}")
 
 def edit_user(user_id, name, email, password, course, status1):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("""
@@ -808,7 +808,7 @@ def edit_user(user_id, name, email, password, course, status1):
 
 # Delete a user
 def delete_user(user_id):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM User WHERE U_ID = ?", (user_id,))
     conn.commit()
@@ -817,7 +817,7 @@ def delete_user(user_id):
 
 # Update user password
 def updatepassword(email, new_password):
-    conn = sqlite3.connect("users.db")
+     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("UPDATE User SET Password = ? WHERE Email_ID = ?", (new_password, email))
     conn.commit()
