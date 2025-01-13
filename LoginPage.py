@@ -45,7 +45,7 @@ def init_db():
     conn.close()
 
 def fetch_all_users(status=None):
-     conn = get_db_connection()
+    conn = get_db_connection()
     if status is None:
         query = "SELECT U_ID, Name, Email_ID, Course FROM User"
         users = pd.read_sql_query(query, conn)
@@ -56,7 +56,7 @@ def fetch_all_users(status=None):
     return users
 
 def is_email_registered(email):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM User WHERE Email_ID = ?", (email,))
     count = cursor.fetchone()[0]
@@ -82,14 +82,14 @@ def send_otp(email):
         return None
 
 def update_otp(email, otp):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("UPDATE User SET OTP = ? WHERE Email_ID = ?", (otp, email))
     conn.commit()
     conn.close()
 
 def verify_user(email, password, otp):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Password, OTP, Status FROM User WHERE Email_ID = ?", (email,))
     record = cursor.fetchone()
@@ -102,7 +102,7 @@ def verify_user(email, password, otp):
     return False
 
 def register_user(name, email, password, course):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     try:
         cursor.execute("INSERT INTO User (Name, Email_ID, Password, Course, Status) VALUES (?, ?, ?, ?, 0)",
@@ -114,7 +114,7 @@ def register_user(name, email, password, course):
     conn.close()
 
 def fetch_user(email):
-     conn = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT Name, Email_ID, Password, Course FROM User WHERE Email_ID = ?", (email,))
     user = cursor.fetchone()
