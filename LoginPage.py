@@ -5,6 +5,7 @@ import os
 import pandas as pd
 import random
 import smtplib
+import psycopg2
 
 # Initialize SQLite database
 MAIN_FOLDER = "Course"
@@ -18,7 +19,7 @@ def init_db():
             Name TEXT NOT NULL,
             Email_ID TEXT UNIQUE NOT NULL,
             Password TEXT NOT NULL,
-            Course TEXT NOT NULL,  
+            Course TEXT NOT NULL,   
             Status INTEGER,
             OTP INTEGER
         )
@@ -50,13 +51,13 @@ def send_otp(email):
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login("varungirish63729802@gmail.com", "cuhq kmtn uznx jwrg")  # Replace with your credentials
+        server.login("scomcoaching@gmail.com", "xgbf hqum tlys gweq")  # Replace with your credentials
 
         subject = "Your Verification OTP"
         body = f"Your OTP for login is: {otp}"
         message = f"Subject: {subject}\n\n{body}"
 
-        server.sendmail("varungirish63729802@gmail.com", email, message)  # Replace with your credentials
+        server.sendmail("scomcoaching@gmail.com", email, message)  # Replace with your credentials
         server.quit()
         return otp
     except Exception as e:
